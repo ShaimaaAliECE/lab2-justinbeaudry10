@@ -27,13 +27,28 @@ export default class Grid extends React.Component {
         [null, null, null, null, null, null, null],
         [null, null, null, null, null, null, null],
       ],
+      gameOver: false,
     };
+  }
+
+  reset() {
+    this.setState({
+      gameSpaces: [
+        [null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null],
+      ],
+    });
   }
 
   checkWin() {
     let spaces = this.state.gameSpaces;
     let hCount = 0;
     let vCount = 0;
+    let won = false;
     let curPlayer;
 
     for (let row = 0; row < 6; row++) {
@@ -50,7 +65,7 @@ export default class Grid extends React.Component {
 
         if (hCount >= 4) {
           console.log(curPlayer + " Wins");
-          return;
+          this.setState({ gameOver: true });
         }
       }
     }
@@ -69,9 +84,13 @@ export default class Grid extends React.Component {
 
         if (vCount >= 4) {
           console.log(curPlayer + " Wins");
-          return;
+          this.setState({ gameOver: true });
         }
       }
+    }
+
+    if (this.state.won) {
+      this.reset();
     }
   }
 
