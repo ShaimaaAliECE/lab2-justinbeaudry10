@@ -1,4 +1,5 @@
 import React from "react";
+import "./index.css";
 
 class CellButton extends React.Component {
   render() {
@@ -7,9 +8,8 @@ class CellButton extends React.Component {
         disabled={this.props.disabled}
         style={this.props.style}
         onClick={this.props.onClick}
-      >
-        __
-      </button>
+        className="cell-btn"
+      ></button>
     );
   }
 }
@@ -55,6 +55,7 @@ export default class Grid extends React.Component {
     }
 
     for (let row = 0; row < 6; row++) {
+      hCount = 0;
       for (let col = 0; col < 7; col++) {
         if (spaces[row][col] === null) {
           hCount = 0;
@@ -73,9 +74,9 @@ export default class Grid extends React.Component {
     }
 
     for (let col = 0; col < 7; col++) {
+      vCount = 0;
       for (let row = 0; row < 6; row++) {
         if (spaces[row][col] === null) {
-          vCount = 0;
           curPlayer = null;
         } else if (spaces[row][col] === curPlayer) {
           vCount++;
@@ -129,9 +130,11 @@ export default class Grid extends React.Component {
     return (
       <div id="gameDiv">
         <div id="message">
-          {this.state.gameOver
-            ? this.state.message
-            : this.state.player + "'s Turn"}
+          <h1>
+            {this.state.gameOver
+              ? this.state.message
+              : this.state.player + "'s Turn"}
+          </h1>
         </div>
         <div id="gridDiv">{this.renderBtns()}</div>
       </div>

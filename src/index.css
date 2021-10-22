@@ -12,13 +12,15 @@ code {
     monospace;
 }
 
-#gridDiv {
-  margin: auto;
-  width: 50%;
-}
-
-#message {
+#gameDiv {
   margin: auto;
   width: 50%;
   text-align: center;
+}
+
+.cell-btn {
+  height: 5rem;
+  width: 5rem;
+  margin: 2px 2px;
+  border-radius: 5rem;
 }
