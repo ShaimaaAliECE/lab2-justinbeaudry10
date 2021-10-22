@@ -28,28 +28,31 @@ export default class Grid extends React.Component {
         [null, null, null, null, null, null, null],
       ],
       gameOver: false,
+      message: "",
     };
-  }
-
-  reset() {
-    this.setState({
-      gameSpaces: [
-        [null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null],
-      ],
-    });
   }
 
   checkWin() {
     let spaces = this.state.gameSpaces;
-    let hCount = 0;
-    let vCount = 0;
-    let won = false;
+    let hCount = 0; // Checks horizontal win
+    let vCount = 0; // Checks vertical win
+    let nullCount = 0; // Checks if all spaces are occupied
     let curPlayer;
+
+    for (let row = 0; row < 6; row++) {
+      for (let col = 0; col < 7; col++) {
+        if (spaces[row][col] === null) {
+          nullCount++;
+        }
+      }
+    }
+
+    if (nullCount === 0) {
+      this.setState({
+        gameOver: true,
+        message: "All spaces occupied, game over",
+      });
+    }
 
     for (let row = 0; row < 6; row++) {
       for (let col = 0; col < 7; col++) {
@@ -64,8 +67,7 @@ export default class Grid extends React.Component {
         }
 
         if (hCount >= 4) {
-          console.log(curPlayer + " Wins");
-          this.setState({ gameOver: true });
+          this.setState({ gameOver: true, message: curPlayer + " Wins" });
         }
       }
     }
@@ -83,14 +85,9 @@ export default class Grid extends React.Component {
         }
 
         if (vCount >= 4) {
-          console.log(curPlayer + " Wins");
-          this.setState({ gameOver: true });
+          this.setState({ gameOver: true, message: curPlayer + " Wins" });
         }
       }
-    }
-
-    if (this.state.won) {
-      this.reset();
     }
   }
 
@@ -102,7 +99,7 @@ export default class Grid extends React.Component {
         btns.push(
           <CellButton
             key={row + " " + col}
-            disabled={false}
+            disabled={false || this.state.gameOver} // Button will be disabled when game is over or when disabled prop is explicitly set to true
             onClick={(e) => {
               // Sets colour to current player's colour
               e.target.style.backgroundColor = this.state.player;
@@ -131,7 +128,11 @@ export default class Grid extends React.Component {
   render() {
     return (
       <div id="gameDiv">
-        <div id="curPlayer">{this.state.player}'s move</div>
+        <div id="message">
+          {this.state.gameOver
+            ? this.state.message
+            : this.state.player + "'s Turn"}
+        </div>
         <div id="gridDiv">{this.renderBtns()}</div>
       </div>
     );
