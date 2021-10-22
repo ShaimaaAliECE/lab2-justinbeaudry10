@@ -39,6 +39,7 @@ export default class Grid extends React.Component {
     let nullCount = 0; // Checks if all spaces are occupied
     let curPlayer;
 
+    // Goes through each cell and adds to the nullCount each time it encounters an empty space
     for (let row = 0; row < 6; row++) {
       for (let col = 0; col < 7; col++) {
         if (spaces[row][col] === null) {
@@ -47,6 +48,7 @@ export default class Grid extends React.Component {
       }
     }
 
+    // If there are no empty spaces, the game is over
     if (nullCount === 0) {
       this.setState({
         gameOver: true,
@@ -54,6 +56,8 @@ export default class Grid extends React.Component {
       });
     }
 
+    // Checking for horizontal win
+    // Goes row by row, and if there are 4 consecutive cells in that row with a particular colour, that colour wins
     for (let row = 0; row < 6; row++) {
       hCount = 0;
       for (let col = 0; col < 7; col++) {
@@ -73,10 +77,13 @@ export default class Grid extends React.Component {
       }
     }
 
+    // Checking for vertical win
+    // Goes column by column, and if there are 4 consecutive cells in that column with a particular colour, that colour wins
     for (let col = 0; col < 7; col++) {
       vCount = 0;
       for (let row = 0; row < 6; row++) {
         if (spaces[row][col] === null) {
+          vCount = 0;
           curPlayer = null;
         } else if (spaces[row][col] === curPlayer) {
           vCount++;
